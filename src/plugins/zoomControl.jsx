@@ -12,6 +12,8 @@ import {
 const ZoomControl = () => {
   const zoomLevel = useSelector(selectZoomLevel);
   const mapObject = useSelector(selectMapObject);
+  const dispatch = useDispatch();
+
   const zoomInMap = () => {
     dispatch(zoomIn());
   };
@@ -19,12 +21,11 @@ const ZoomControl = () => {
   const zoomOutMap = () => {
     dispatch(zoomOut());
   };
-  const dispatch = useDispatch();
+
   if (mapObject) {
     mapObject.on("moveend", function () {
       var zoom = mapObject.getView().getZoom();
       var zoomInfo = "Zoom level = " + zoom;
-      console.log(zoom);
       dispatch(setZoom(zoom));
       document.getElementById("zoomlevel").innerHTML = zoomInfo;
     });

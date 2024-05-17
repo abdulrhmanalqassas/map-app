@@ -12,6 +12,7 @@ import {
   moveCenterByValue,
   selectCenterPoint,
   selectMapObject,
+  setCenter,
 } from "./redux/MapSlice";
 import "./App.css";
 import MapComponent from "./components/map";
@@ -42,7 +43,15 @@ function App() {
   const handleMoveCenter = (value) => {
     dispatch(moveCenterByValue(value));
   };
-
+  if (mapObject) {
+    mapObject.on("moveend", function () {
+      var centerVal = mapObject.getView().getCenter();
+      var centerInfo = "centerInfo  = " + centerVal;
+      console.log(`centerVal >>>>>>`, centerVal);
+      dispatch(setCenter(centerVal));
+      document.getElementById("centerInfo").innerHTML = centerInfo;
+    });
+  }
   useEffect(() => {
     if (mapObject) {
       const routeCoordinates = [
@@ -107,6 +116,7 @@ function App() {
             move by 1000 in X and Y
           </button>
           {centerPoint.x} , {centerPoint.y}
+          <p id="centerInfo"></p>
         </div>
 
         <ZoomControl />

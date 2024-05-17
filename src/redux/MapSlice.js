@@ -50,6 +50,12 @@ const centerPointSlice = createSlice({
         y: state.centerPoint.y + action.payload,
       };
     },
+    setCenter: (state, action) => {
+      state.centerPoint = {
+        x: action.payload[0],
+        y: action.payload[1],
+      };
+    },
   },
 });
 
@@ -59,7 +65,7 @@ export const selectZoomLevel = (state) => state.mapReducer.zoomLevel;
 export const selectMapObject = (state) => state.mapReducer.mapObject;
 export const zoomSliceReducer = zoomSlice.reducer;
 
-export const { moveCenterX, moveCenterY, moveCenterByValue } =
+export const { moveCenterX, moveCenterY, moveCenterByValue, setCenter } =
   centerPointSlice.actions;
 export const selectCenterPoint = (state) => state.center.centerPoint;
 export const centerSliceReducer = centerPointSlice.reducer;
