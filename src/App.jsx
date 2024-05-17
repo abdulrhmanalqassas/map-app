@@ -16,7 +16,7 @@ import {
 import "./App.css";
 import MapComponent from "./components/map";
 import { MapPositionControl } from "./plugins/MapPositionControl";
-import ZoomControl from "./plugins/zoomControl";
+import ZoomControl from "./plugins/zoomControl.jsx";
 import * as ol from "ol";
 import LineString from "ol/geom/LineString.js";
 import Vector from "ol/source/Vector";
@@ -31,13 +31,7 @@ function App() {
   const dispatch = useDispatch();
 
   const mapRef = useRef(null);
-  const zoomInMap = () => {
-    dispatch(zoomIn());
-  };
 
-  const zoomOutMap = () => {
-    dispatch(zoomOut());
-  };
   const handleCenterY = () => {
     dispatch(moveCenterY());
   };
@@ -49,15 +43,6 @@ function App() {
     dispatch(moveCenterByValue(value));
   };
 
-  if (mapObject) {
-    mapObject.on("moveend", function () {
-      var zoom = mapObject.getView().getZoom();
-      var zoomInfo = "Zoom level = " + zoom;
-      console.log(zoom);
-      dispatch(setZoom(zoom));
-      document.getElementById("zoomlevel").innerHTML = zoomInfo;
-    });
-  }
   useEffect(() => {
     if (mapObject) {
       const routeCoordinates = [
@@ -105,15 +90,6 @@ function App() {
         mapRef={mapRef}
       >
         <div className="card">
-          <button style={{ zIndex: 99 }} onClick={zoomInMap}>
-            ZOOM IN
-          </button>
-          {zoomLevel}
-          <button style={{ zIndex: 99 }} onClick={zoomOutMap}>
-            ZOOM OUT
-          </button>
-        </div>
-        <div className="card">
           <button style={{ zIndex: 99 }} onClick={handleCenterX}>
             CenterX
           </button>
@@ -132,7 +108,7 @@ function App() {
           </button>
           {centerPoint.x} , {centerPoint.y}
         </div>
-        <p id="zoomlevel"></p>
+
         <ZoomControl />
         <MapPositionControl />
       </MapComponent>
