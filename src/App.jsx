@@ -2,17 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  zoomIn,
-  zoomOut,
-  setZoom,
-  zoomByValue,
   selectZoomLevel,
-  moveCenterX,
-  moveCenterY,
-  moveCenterByValue,
   selectCenterPoint,
   selectMapObject,
-  setCenter,
 } from "./redux/MapSlice";
 import "./App.css";
 import MapComponent from "./components/map";
@@ -24,34 +16,17 @@ import Vector from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import Style from "ol/style/Style";
 import Stroke from "ol/style/Stroke";
+import CenterControl from "./plugins/centerControl.jsx";
+import { MapDrawControl } from "./plugins/mapDrawControl.jsx";
 function App() {
   const zoomLevel = useSelector(selectZoomLevel);
   const centerPoint = useSelector(selectCenterPoint);
   const mapObject = useSelector(selectMapObject);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const mapRef = useRef(null);
 
-  const handleCenterY = () => {
-    dispatch(moveCenterY());
-  };
-
-  const handleCenterX = () => {
-    dispatch(moveCenterX());
-  };
-  const handleMoveCenter = (value) => {
-    dispatch(moveCenterByValue(value));
-  };
-  if (mapObject) {
-    mapObject.on("moveend", function () {
-      var centerVal = mapObject.getView().getCenter();
-      var centerInfo = "centerInfo  = " + centerVal;
-      console.log(`centerVal >>>>>>`, centerVal);
-      dispatch(setCenter(centerVal));
-      document.getElementById("centerInfo").innerHTML = centerInfo;
-    });
-  }
   useEffect(() => {
     if (mapObject) {
       const routeCoordinates = [
@@ -98,27 +73,8 @@ function App() {
         zoom={zoomLevel}
         mapRef={mapRef}
       >
-        <div className="card">
-          <button style={{ zIndex: 99 }} onClick={handleCenterX}>
-            CenterX
-          </button>
-          {centerPoint.x}
-          <button style={{ zIndex: 99 }} onClick={handleCenterY}>
-            CenterY
-          </button>
-          {centerPoint.y}
-        </div>
-        <div className="card">
-          <button
-            style={{ zIndex: 99 }}
-            onClick={() => handleMoveCenter(100000)}
-          >
-            move by 1000 in X and Y
-          </button>
-          {centerPoint.x} , {centerPoint.y}
-          <p id="centerInfo"></p>
-        </div>
-
+        <MapDrawControl />
+        <CenterControl />
         <ZoomControl />
         <MapPositionControl />
       </MapComponent>
