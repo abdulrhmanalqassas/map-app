@@ -21,24 +21,15 @@ const ZoomControl = () => {
   const zoomOutMap = () => {
     dispatch(zoomOut());
   };
-
-  if (mapObject) {
+  useEffect(() => {
+    if (!mapObject) return;
     mapObject.on("moveend", function () {
       var zoom = mapObject.getView().getZoom();
       var zoomInfo = "Zoom level = " + zoom;
       dispatch(setZoom(zoom));
       document.getElementById("zoomlevel").innerHTML = zoomInfo;
     });
-  }
-  // useEffect(() => {
-  //   if (!map) return;
-
-  //   let zoomControls = new Zoom({});
-
-  //   map.controls.push(zoomControls);
-
-  //   return () => map.controls.remove(zoomControls);
-  // }, [map]);
+  }, [mapObject]);
 
   return (
     <div className="card">

@@ -15,7 +15,6 @@ export const MapPositionControl = () => {
         )}, Longitude: ${coordinates[0].toFixed(6)}`,
       projection: "EPSG:4326",
       className: "custom-mouse-position",
-
       undefinedHTML: "&nbsp;",
     });
 
