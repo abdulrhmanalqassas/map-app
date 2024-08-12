@@ -17,6 +17,7 @@ import VectorLayer from "ol/layer/Vector";
 import Style from "ol/style/Style";
 import Stroke from "ol/style/Stroke";
 import CenterControl from "./plugins/centerControl.jsx";
+import { InfoDisplay } from "./plugins/infoDisplay.jsx";
 import { MapDrawControl } from "./plugins/mapDrawControl.jsx";
 function App() {
   const zoomLevel = useSelector(selectZoomLevel);
@@ -73,6 +74,7 @@ function App() {
         zoom={zoomLevel}
         mapRef={mapRef}
       >
+        <InfoDisplay />
         <MapDrawControl />
         <CenterControl />
         <ZoomControl />
