@@ -18,7 +18,18 @@ const sourceLayers = {
     },
   }),
   osm: new TileLayer({
+    preload: Infinity,
     source: new OSM(),
+  }),
+  overlay: new VectorLayer({
+    source: new VectorSource({
+      url: "https://openlayers.org/data/vector/ecoregions.json",
+      format: new GeoJSON(),
+    }),
+    background: "black",
+    style: {
+      "fill-color": ["string", ["get", "COLOR"], "#eeeeee"],
+    },
   }),
 };
 export default sourceLayers;

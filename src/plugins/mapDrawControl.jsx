@@ -10,38 +10,40 @@ export const MapDrawControl = () => {
   const vector = new VectorLayer({
     source: source,
   });
+  vector.set("name", "draw_layer");
 
+  const styles = {
+    Point: {
+      "circle-radius": 5,
+      "circle-fill-color": "red",
+    },
+    LineString: {
+      "circle-radius": 5,
+      "circle-fill-color": "red",
+      "stroke-color": "yellow",
+      "stroke-width": 2,
+    },
+    Polygon: {
+      "circle-radius": 5,
+      "circle-fill-color": "red",
+      "stroke-color": "yellow",
+      "stroke-width": 2,
+      "fill-color": "blue",
+    },
+    Circle: {
+      "circle-radius": 5,
+      "circle-fill-color": "red",
+      "stroke-color": "blue",
+      "stroke-width": 2,
+      "fill-color": "yellow",
+    },
+  };
+  const typeSelect = document.getElementById("type");
+  let draw;
   useEffect(() => {
     if (!mapObject) return;
     mapObject.addLayer(vector);
-    const styles = {
-      Point: {
-        "circle-radius": 5,
-        "circle-fill-color": "red",
-      },
-      LineString: {
-        "circle-radius": 5,
-        "circle-fill-color": "red",
-        "stroke-color": "yellow",
-        "stroke-width": 2,
-      },
-      Polygon: {
-        "circle-radius": 5,
-        "circle-fill-color": "red",
-        "stroke-color": "yellow",
-        "stroke-width": 2,
-        "fill-color": "blue",
-      },
-      Circle: {
-        "circle-radius": 5,
-        "circle-fill-color": "red",
-        "stroke-color": "blue",
-        "stroke-width": 2,
-        "fill-color": "yellow",
-      },
-    };
-    const typeSelect = document.getElementById("type");
-    let draw; // global so we can remove it later
+    // global so we can remove it later
     function addInteraction() {
       const value = typeSelect.value;
       if (value !== "None") {
@@ -52,10 +54,11 @@ export const MapDrawControl = () => {
         });
         mapObject.addInteraction(draw);
       }
+      typeSelect.value = "None";
     }
     /**
      * Handle change event.
-     */
+     **/
     typeSelect.onchange = function () {
       mapObject.removeInteraction(draw);
       addInteraction();
@@ -64,13 +67,16 @@ export const MapDrawControl = () => {
   }, [mapObject]);
 
   let clearMap = () => {
-    // mapObject
-    //   .getLayers()
-    //   .getArray()
-    //   .slice()
-    //   .forEach((layer) => mapObject.removeLayer(layer));
-    source.clear();
-    vector.getSource().refresh();
+    mapObject
+      .getLayers()
+      .getArray()
+      .slice()
+      .forEach((layer, index) => {
+        if (layer.get("name") == "draw_layer") {
+          const drawLayer = layer.getSource();
+          drawLayer.clear();
+        }
+      });
   };
   return (
     <>

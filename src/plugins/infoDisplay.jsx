@@ -20,7 +20,6 @@ export const InfoDisplay = () => {
       BIOME_NAME: feature.get("BIOME_NAME"),
       REALM: feature.get("REALM"),
     };
-
     return displayInfo;
   };
   let currentFeature;

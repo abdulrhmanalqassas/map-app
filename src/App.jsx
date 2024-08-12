@@ -28,45 +28,45 @@ function App() {
 
   const mapRef = useRef(null);
 
-  useEffect(() => {
-    if (mapObject) {
-      const routeCoordinates = [
-        [31.2497, 30.0626], // Cairo (Point A)
-        [29.9553, 31.2156], // Alexandria (Point B)
-      ];
+  // useEffect(() => {
+  //   if (mapObject) {
+  //     const routeCoordinates = [
+  //       [31.2497, 30.0626], // Cairo (Point A)
+  //       [29.9553, 31.2156], // Alexandria (Point B)
+  //     ];
 
-      // Create a GeoJSON object representing the route
-      const routeGeoJSON = {
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: routeCoordinates,
-        },
-      };
+  //     // Create a GeoJSON object representing the route
+  //     const routeGeoJSON = {
+  //       type: "Feature",
+  //       geometry: {
+  //         type: "LineString",
+  //         coordinates: routeCoordinates,
+  //       },
+  //     };
 
-      // Now you can use the routeGeoJSON directly in your OpenLayers code
-      const routeFeature = new ol.Feature({
-        geometry: new LineString(routeGeoJSON.geometry.coordinates).transform(
-          "EPSG:4326",
-          "EPSG:3857"
-        ),
-      });
+  //     // Now you can use the routeGeoJSON directly in your OpenLayers code
+  //     const routeFeature = new ol.Feature({
+  //       geometry: new LineString(routeGeoJSON.geometry.coordinates).transform(
+  //         "EPSG:4326",
+  //         "EPSG:3857"
+  //       ),
+  //     });
 
-      const vectorLayer = new VectorLayer({
-        source: new Vector({
-          features: [routeFeature],
-        }),
-        style: new Style({
-          stroke: new Stroke({
-            color: "green", // Red line color
-            width: 5,
-          }),
-        }),
-      });
+  //     const vectorLayer = new VectorLayer({
+  //       source: new Vector({
+  //         features: [routeFeature],
+  //       }),
+  //       style: new Style({
+  //         stroke: new Stroke({
+  //           color: "green", // Red line color
+  //           width: 5,
+  //         }),
+  //       }),
+  //     });
 
-      mapObject.addLayer(vectorLayer);
-    }
-  }, [mapObject]);
+  //     mapObject.addLayer(vectorLayer);
+  //   }
+  // }, [mapObject]);
   return (
     <>
       <MapComponent
